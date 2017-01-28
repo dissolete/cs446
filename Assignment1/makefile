@@ -36,6 +36,9 @@ precompile:
 
 bin/main.o: src/main.cpp $(INCLUDES)
 	$(CC) $(CFLAGS) src/main.cpp -o bin/main.o
+
+bin/Parser.o: src/Parser.cpp include/Parser.hpp
+	$(CC) $(CFLAGS) src/Parser.cpp -o bin/Parser.o
 	
 #------------------------------------------------------------------------------#
 
