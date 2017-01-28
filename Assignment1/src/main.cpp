@@ -1,12 +1,10 @@
-#include <iostream>
-#include "test.hpp"
+#include "Utilities.hpp"
 
 
 int main(int argc, char ** argv)
 {
+  // Abort if user did not supply a config file!
+  FATAL_ERROR_CHECK(argc <= 1, "A configuration file must be supplied for proper simulation!");
 
-  std::cout << "Hello World!" << std::endl;
-
-  testFunc();
   return 0;
 }
