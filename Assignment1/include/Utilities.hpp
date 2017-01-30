@@ -66,6 +66,7 @@ namespace jgs
 			const char* what() const throw ()
 			{
 				std::string description = "The extension " + theExtension + " for a config file is unsuported! The extension must be .conf !";
+				DEBUG(description);
 				return description.c_str();
 			}
 

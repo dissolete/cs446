@@ -1,5 +1,6 @@
 #include "Utilities.hpp"
 #include "Parser.hpp"
+#include "StringParser.hpp"
 
 int main(int argc, char ** argv)
 {
@@ -11,11 +12,12 @@ int main(int argc, char ** argv)
   Parser parser;
 
   try{
-    parser.parse("blah");
+    parser.parse(argv[1]);
   }
-  catch(std::exception & e)
+  catch(std::string e)
   {
-    std::cout << e.what() << std::endl;
+    std::cout << "An exception was thrown!" << std::endl;
+    std::cout << e << std::endl;
   }
 
   return 0;

@@ -3,6 +3,7 @@
 
 #include <string>
 #include <map>
+#include "StringParser.hpp"
 #include "Utilities.hpp"
 
 namespace jgs
@@ -22,6 +23,11 @@ namespace jgs
       * the config file
       */
       void parse(std::string configFile);
+
+
+    protected:
+
+      
 
     private:
 

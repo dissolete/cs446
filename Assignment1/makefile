@@ -39,6 +39,9 @@ bin/main.o: src/main.cpp $(INCLUDES)
 
 bin/Parser.o: src/Parser.cpp include/Parser.hpp
 	$(CC) $(CFLAGS) src/Parser.cpp -o bin/Parser.o
+
+bin/StringParser.o: src/StringParser.cpp include/StringParser.hpp
+	$(CC) $(CFLAGS) src/StringParser.cpp -o bin/StringParser.o
 	
 #------------------------------------------------------------------------------#
 
@@ -62,4 +65,3 @@ list:
 	@echo "objects: $(OBJECTS)\n"
 
 #-----------------------------<<  END MAKEFILE  >>-----------------------------#
-
