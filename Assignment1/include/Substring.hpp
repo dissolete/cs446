@@ -1,5 +1,5 @@
-#ifndef __STRING_PARSER_HPP_INCLUDED
-#define __STRING_PARSER_HPP_INCLUDED
+#ifndef __SUBSTRING_HPP_INCLUDED
+#define __SUBSTRING_HPP_INCLUDED
 
 #include "Utilities.hpp"
 

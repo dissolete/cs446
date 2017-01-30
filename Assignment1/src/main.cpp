@@ -1,6 +1,6 @@
 #include "Utilities.hpp"
 #include "Parser.hpp"
-#include "StringParser.hpp"
+#include "Substring.hpp"
 
 int main(int argc, char ** argv)
 {

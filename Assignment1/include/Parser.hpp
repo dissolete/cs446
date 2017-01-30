@@ -3,7 +3,7 @@
 
 #include <string>
 #include <map>
-#include "StringParser.hpp"
+#include "Substring.hpp"
 #include "Utilities.hpp"
 
 namespace jgs
@@ -27,7 +27,7 @@ namespace jgs
 
     protected:
 
-      
+
 
     private:
 
