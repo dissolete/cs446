@@ -3,6 +3,7 @@
 
 #include <string>
 #include <map>
+#include <fstream>
 #include "Substring.hpp"
 #include "Utilities.hpp"
 
@@ -12,6 +13,11 @@ namespace jgs
   class Parser
   {
     public:
+
+	  enum State
+	  {
+		  BeginState, EndState, FatalState
+	  };
 
       /**
       * Default constructor.
@@ -27,10 +33,16 @@ namespace jgs
 
     protected:
 
+       void main_loop();
 
 
     private:
 
+      State m_currentState;
+
+      std::fstream m_inf;
+
+      std::string m_configFile, m_metaFile;
 
   };
 

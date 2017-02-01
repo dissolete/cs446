@@ -2,7 +2,9 @@
 
 namespace jgs
 {
-  Parser::Parser() {}
+  Parser::Parser()
+  	  :m_currentState(Parser::State::BeginState)
+  {}
 
   void Parser::parse(std::string configFile)
   {
@@ -15,8 +17,32 @@ namespace jgs
   		                               "The extension for the config file must be .conf";
   		throw exceptionMessage;
   	}
-    //throw UnsupportedExtensionException(".cnf");
-    //throw MissingConfigurationElementException("Processor cycle time");
-    //throw "Test Exception";
+
+
+  	m_configFile = configFile;
+
+  	main_loop();
+
+  }
+
+  void Parser::main_loop()
+  {
+
+	  // Open the config file and throw exception if it could not be opened
+	  m_inf.open(m_configFile.c_str());
+	  if(not m_inf.is_open())
+	  {
+		  std::string exceptionMessage = "The configuration file " + m_configFile
+				                       + " supplied cannot be opened. Does it exist?";
+		  throw exceptionMessage;
+	  }
+
+
+//	  while(m_currentState != State::EndState)
+//	  {
+//
+//	  }
+
+	  m_inf.close();
   }
 }
