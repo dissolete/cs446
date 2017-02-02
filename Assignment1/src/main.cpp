@@ -11,14 +11,18 @@ int main(int argc, char ** argv)
 
   Parser parser;
 
-  try{
-    parser.parse(argv[1]);
-  }
-  catch(std::string e)
+
+  if(not parser.parse(argv[1]))
   {
-    std::cout << "An exception was thrown!" << std::endl;
-    std::cout << e << std::endl;
+	  std::cout << "+-----------------------------------------------------------------------------+" << std::endl;
+	  std::cout << "One or more errors occured while attempting to parse the configuration files!\n"
+			    << "Error(s): ";
+	  std::cout << parser.get_error() << std::endl;
+	  std::cout << "+-----------------------------------------------------------------------------+" << std::endl;
+
+	  return -1;
   }
+
 
   return 0;
 

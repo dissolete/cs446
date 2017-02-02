@@ -28,12 +28,19 @@ namespace jgs
       * Parses the config file. Throws an exception if there is an error in
       * the config file
       */
-      void parse(std::string configFile);
+      bool parse(std::string configFile);
 
+      /**
+       * If an error occured, this will return the error message.
+       * If no error, an empty string is returned
+       */
+      std::string get_error() const;
 
     protected:
 
-       void main_loop();
+       bool parse_config();
+
+       State check_valid_word(std::string word);
 
 
     private:
@@ -42,7 +49,7 @@ namespace jgs
 
       std::fstream m_inf;
 
-      std::string m_configFile, m_metaFile;
+      std::string m_configFile, m_metaFile, m_errorString;
 
   };
 
