@@ -19,11 +19,9 @@ int main(int argc, char ** argv)
 			    << "Error(s): ";
 	  std::cout << parser.get_error() << std::endl;
 	  std::cout << "+-----------------------------------------------------------------------------+" << std::endl;
-
 	  return -1;
   }
-
-
+  
   return 0;
 
 }
