@@ -21,6 +21,15 @@ namespace jgs
       Word(State::LogPathState, "Log"),
       Word(State::EndState, "End")
     };
+
+    m_validInstructionCodes = {
+      'S', 'O', 'P', 'I', 'M', 'A'
+    };
+
+    m_validInstructionDescs = {
+      "start", "end", "allocate", "run", "keyboard", "monitor", "printer",
+      "harddrive", "mouse"
+    };
   }
 
   std::string Parser::get_error() const
@@ -92,53 +101,53 @@ namespace jgs
 
       switch(m_currentState)
       {
-        case State::BeginState: 
+        case State::BeginState:
               stateSuccess = perform_BeginState();
               break;
-        case State::EndState: 
+        case State::EndState:
               stateSuccess = perform_EndState();
               m_currentState = State::EndState;
               break;
-        case State::FatalState: 
+        case State::FatalState:
               stateSuccess = perform_FatalState();
               break;
-        case State::FilePathState: 
+        case State::FilePathState:
               stateSuccess = perform_FilePathState();
               break;
-        case State::ProcessorState: 
+        case State::ProcessorState:
               stateSuccess = perform_ProcessorState();
-              break; 
-        case State::MonitorState: 
+              break;
+        case State::MonitorState:
               stateSuccess = perform_MonitorState();
-              break; 
-        case State::HDDState: 
+              break;
+        case State::HDDState:
               stateSuccess = perform_HDDState();
               break;
-        case State::PrinterState: 
+        case State::PrinterState:
               stateSuccess = perform_PrinterState();
               break;
-        case State::KeyboardState: 
+        case State::KeyboardState:
               stateSuccess = perform_KeyboardState();
               break;
-        case State::MemoryState: 
+        case State::MemoryState:
               stateSuccess = perform_MemoryState();
               break;
-        case State::MouseState: 
+        case State::MouseState:
               stateSuccess = perform_MouseState();
-              break; 
-        case State::SpeakerState: 
+              break;
+        case State::SpeakerState:
               stateSuccess = perform_SpeakerState();
               break;
-        case State::MetaPathState: 
+        case State::MetaPathState:
               stateSuccess = perform_MetaPathState();
               break;
-        case State::LogPathState: 
+        case State::LogPathState:
               stateSuccess = perform_LogPathState();
               break;
-        case State::LogStyleState: 
+        case State::LogStyleState:
               stateSuccess = perform_LogStyleState();
-              break; 
-        case State::SkipState: 
+              break;
+        case State::SkipState:
               stateSuccess = perform_SkipState(inputString);
               break;
 
@@ -211,7 +220,7 @@ namespace jgs
     m_inf >> input;
 
     // Check the extension of the filepath
-    std::string extension = substr_from_delim(input, '.'); 
+    std::string extension = substr_from_delim(input, '.');
     if(extension != "mdf")
     {
       m_errorString += "\n* The extension " + extension + " is not supported for the meta "
@@ -410,6 +419,7 @@ namespace jgs
 	  m_inf >> inputString;
 
 	  bool successfulInstruction = true;
+    Instruction inputInstruction;
 	  while(successfulInstruction and m_inf.good())
 	  {
 		  //succssfulInstruction = check_valid_syntax(inputString);
@@ -417,12 +427,12 @@ namespace jgs
 		  if(inputString == "\n" or inputString == "")
 			  continue;
 
-
+      successfulInstruction = check_valid_syntax(inputString, inputInstruction);
 
 		  DEBUG("The instruction extracted is " << inputString);
 	  }
 
-	  return true;
+	  return successfulInstruction;
   }
 
   std::string Parser::extract_instruction()
@@ -446,12 +456,67 @@ namespace jgs
 
   bool Parser::check_valid_syntax(std::string instructionString, Instruction & instructionStruct)
   {
+    bool success = true;
 	  std::string instructionCode, instructionDesc, instructionTime;
 
 	  instructionCode = substr_to_delim(instructionString, '(');
 	  instructionDesc = substr_to_from_delim(instructionString, '(', ')');
 	  instructionTime = substr_from_delim(instructionString, ')');
 
+    if(not check_valid_code(instructionCode[0]))
+    {
+      m_errorString += "\n* The instruction " + instructionString +
+                       " has an invalid instruction code of " + instructionCode[0];
+      success = false;
+    }
+
+    if(not check_valid_desc(instructionDesc))
+    {
+      m_errorString += "\n* The instruction " + instructionString +
+                       " has an invalid instruction description of " + instructionDesc;
+      success =  false;
+    }
+
+    int time = -1;
+    try{
+      time = string_to_int(instructionTime);
+    }
+    catch(std::string e)
+    {
+      m_errorString += "\n* The instruction " + instructionString +
+                       " has an invalid time of " + instructionTime;
+      m_errorString += "\n* " + e;
+      success = false;
+    }
+
+    
+    return success;
+  }
+
+  bool Parser::check_valid_code(char instructionCode)
+  {
+    for(auto code : m_validInstructionCodes)
+    {
+      if(code == instructionCode)
+        return true;
+    }
+
+    return false;
+  }
+
+  bool Parser::check_valid_desc(std::string instructionDesc)
+  {
+    for(auto desc : m_validInstructionDescs)
+    {
+      if(desc == instructionDesc)
+        return true;
+    }
+
+    return false;
+  }
+
+  bool Parser::check_valid_time(std::string instructionTime)
+  {
 
   }
 

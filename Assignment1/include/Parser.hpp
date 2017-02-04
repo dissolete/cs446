@@ -5,6 +5,7 @@
 #include <vector>
 #include <fstream>
 #include <algorithm>
+#include <cstdlib>
 #include "Substring.hpp"
 #include "Utilities.hpp"
 
@@ -58,7 +59,7 @@ namespace jgs
     struct Instruction
     {
     	std::string instructionWord = "";
-    	char instructionLetter = '';
+    	char instructionLetter = '\0';
     	int instructionTime = -1;
     };
 
@@ -87,6 +88,10 @@ namespace jgs
      Parser::State check_valid_word(std::string word);
      bool check_valid_syntax(std::string instructionString, Instruction & instructionStruct);
      std::string extract_instruction();
+
+     bool check_valid_code(char instructionCode);
+     bool check_valid_desc(std::string desc);
+     bool check_valid_time(std::string instructionTime);
 
      bool perform_BeginState();
      bool perform_EndState();
@@ -117,6 +122,8 @@ namespace jgs
       ConfigStruct m_configStruct;
 
       std::vector<Word> m_validWords;
+      std::vector<char> m_validInstructionCodes;
+      std::vector<std::string> m_validInstructionDescs;
       std::vector<Instruction> m_instructions;
   };
 

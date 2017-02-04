@@ -26,6 +26,8 @@ namespace jgs
 	* is returned.
 	*/
 	std::string substr_to_from_delim(const std::string & theString, char delimStart, char delimEnd);
+
+	int string_to_int(std::string input);
 }
 
 #endif
