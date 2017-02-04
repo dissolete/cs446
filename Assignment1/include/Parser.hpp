@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <algorithm>
 #include "Substring.hpp"
 #include "Utilities.hpp"
 
@@ -48,10 +49,17 @@ namespace jgs
     {
     public:
 
-      Word(State theState, std::string theName) : state(theState), name(theName){} 
+      Word(State theState, std::string theName) : state(theState), name(theName){}
 
       State state;
       std::string name;
+    };
+
+    struct Instruction
+    {
+    	std::string instructionWord = "";
+    	char instructionLetter = '';
+    	int instructionTime = -1;
     };
 
     /**
@@ -74,8 +82,11 @@ namespace jgs
     protected:
 
      bool parse_config();
+     bool parse_meta();
 
      Parser::State check_valid_word(std::string word);
+     bool check_valid_syntax(std::string instructionString, Instruction & instructionStruct);
+     std::string extract_instruction();
 
      bool perform_BeginState();
      bool perform_EndState();
@@ -106,7 +117,7 @@ namespace jgs
       ConfigStruct m_configStruct;
 
       std::vector<Word> m_validWords;
-
+      std::vector<Instruction> m_instructions;
   };
 
 }

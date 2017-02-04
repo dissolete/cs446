@@ -61,6 +61,7 @@ namespace jgs
       std::cout << "LogStle: " << m_configStruct.logStyle <<  std::endl;
     }
 
+    success = parse_meta();
   	return success;
 
   }
@@ -390,5 +391,68 @@ namespace jgs
      DEBUG(skippedWord);
   }
 
+  bool Parser::parse_meta()
+  {
+	  // Open file, throw error if unable to open
+	  m_inf.open(m_configStruct.metafile.c_str());
+	  if(not m_inf.good())
+	  {
+		  m_errorString += "The metafile " + m_configStruct.metafile + " could not be opened? Does it exist?";
+		  return false;
+	  }
+
+
+	  // Hackish solution until I write something better (if ever c:)
+	  std::string inputString;
+	  m_inf >> inputString;
+	  m_inf >> inputString;
+	  m_inf >> inputString;
+	  m_inf >> inputString;
+
+	  bool successfulInstruction = true;
+	  while(successfulInstruction and m_inf.good())
+	  {
+		  //succssfulInstruction = check_valid_syntax(inputString);
+		  inputString = extract_instruction();
+		  if(inputString == "\n" or inputString == "")
+			  continue;
+
+
+
+		  DEBUG("The instruction extracted is " << inputString);
+	  }
+
+	  return true;
+  }
+
+  std::string Parser::extract_instruction()
+  {
+	  std::string instructionString = "";
+
+	  // Loop until a valid delimiter is reached
+	  char c;
+	  m_inf >> std::noskipws >> c;
+	  while(m_inf.good() and c != ';' and c != ':' and c != ',' and c != '\n' and c != '.' and c != '!')
+	  {
+		  instructionString += c;
+		  m_inf >> std::noskipws >> c;
+	  }
+
+	  //instructionString += c;
+
+	  instructionString.erase(std::remove(instructionString.begin(), instructionString.end(), ' '), instructionString.end());
+	  return instructionString;
+  }
+
+  bool Parser::check_valid_syntax(std::string instructionString, Instruction & instructionStruct)
+  {
+	  std::string instructionCode, instructionDesc, instructionTime;
+
+	  instructionCode = substr_to_delim(instructionString, '(');
+	  instructionDesc = substr_to_from_delim(instructionString, '(', ')');
+	  instructionTime = substr_from_delim(instructionString, ')');
+
+
+  }
 
 }
