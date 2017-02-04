@@ -28,7 +28,7 @@ namespace jgs
 
     m_validInstructionDescs = {
       "start", "end", "allocate", "run", "keyboard", "monitor", "printer",
-      "harddrive", "mouse"
+      "harddrive", "mouse", "speaker", "block"
     };
   }
 
@@ -427,7 +427,13 @@ namespace jgs
 		  if(inputString == "\n" or inputString == "")
 			  continue;
 
+      if(inputString == "EndProgramMeta-DataCode")
+        break;
+
       successfulInstruction = check_valid_syntax(inputString, inputInstruction);
+
+      if(successfulInstruction)
+        m_instructions.push_back(inputInstruction);
 
 		  DEBUG("The instruction extracted is " << inputString);
 	  }
@@ -477,6 +483,50 @@ namespace jgs
       success =  false;
     }
 
+    // Check if the instruction code matches the description (are they compatable)
+    if(instructionCode[0] == 'S' and not (instructionDesc == "start" or instructionDesc == "end"))
+    {
+      m_errorString += "\n* The instruction " + instructionString +
+                     " has a mismatch of instruction code and instruction description."
+                     + " They are not compatible.";
+      success = false;
+    }
+    else if(instructionCode[0] == 'A' and not (instructionDesc == "start" or instructionDesc == "end"))
+    {
+      m_errorString += "\n* The instruction " + instructionString +
+                     " has a mismatch of instruction code and instruction description."
+                     + " They are not compatible.";
+      success = false;
+    }
+    else if(instructionCode[0] == 'P' and not (instructionDesc == "run"))
+    {
+      m_errorString += "\n* The instruction " + instructionString +
+                     " has a mismatch of instruction code and instruction description."
+                     + " They are not compatible.";
+      success = false;
+    }
+    else if(instructionCode[0] == 'I' and not (instructionDesc == "harddrive" or instructionDesc == "keyboard" or instructionDesc == "mouse"))
+    {
+      m_errorString += "\n* The instruction " + instructionString +
+                     " has a mismatch of instruction code and instruction description."
+                     + " They are not compatible.";
+      success = false;
+    }
+    else if(instructionCode[0] == 'O' and not (instructionDesc == "harddrive" or instructionDesc == "monitor" or instructionDesc == "speaker" or instructionDesc == "printer"))
+    {
+      m_errorString += "\n* The instruction " + instructionString +
+                     " has a mismatch of instruction code and instruction description."
+                     + " They are not compatible.";
+      success = false;
+    }
+    else if(instructionCode[0] == 'M' and not (instructionDesc == "block" or instructionDesc == "allocate"))
+    {
+      m_errorString += "\n* The instruction " + instructionString +
+                     " has a mismatch of instruction code and instruction description."
+                     + " They are not compatible.";
+      success = false;
+    }
+
     int time = -1;
     try{
       time = string_to_int(instructionTime);
@@ -489,7 +539,10 @@ namespace jgs
       success = false;
     }
 
-    
+    instructionStruct.instructionDesc = instructionDesc;
+    instructionStruct.instructionCode = instructionCode[0];
+    instructionStruct.instructionTime = time;
+
     return success;
   }
 

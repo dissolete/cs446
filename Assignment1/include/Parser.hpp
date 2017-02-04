@@ -34,10 +34,18 @@ namespace jgs
     LogStyle logStyle = LogStyle::LogToMonitor;
   };
 
+  struct Instruction
+  {
+    std::string instructionDesc = "";
+    char instructionCode = '\0';
+    int instructionTime = -1;
+  };
+
   class Parser
   {
     public:
-
+      std::vector<Instruction> m_instructions;
+      ConfigStruct m_configStruct;
 	  enum State
 	  {
 		  BeginState, EndState, FatalState, FilePathState,
@@ -54,13 +62,6 @@ namespace jgs
 
       State state;
       std::string name;
-    };
-
-    struct Instruction
-    {
-    	std::string instructionWord = "";
-    	char instructionLetter = '\0';
-    	int instructionTime = -1;
     };
 
     /**
@@ -119,12 +120,9 @@ namespace jgs
 
       std::string m_configFile, m_metaFile, m_errorString;
 
-      ConfigStruct m_configStruct;
-
       std::vector<Word> m_validWords;
       std::vector<char> m_validInstructionCodes;
       std::vector<std::string> m_validInstructionDescs;
-      std::vector<Instruction> m_instructions;
   };
 
 }

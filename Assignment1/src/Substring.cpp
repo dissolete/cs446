@@ -63,12 +63,15 @@ namespace jgs
 
 	int string_to_int(std::string input)
 	{
+		if(input == "" or input == "\n")
+			throw std::string("Input supplied was empty!");
 		int placeValue = 1;
 		int result = 0;
 		// Iterate to the end of the string
 		int i = 0;
 		while(input[i] != '\0') i++;
-
+		i--;
+		std::cout << i << std::endl;
 		// Loop backwards to create the int
 		while(i >= 0)
 		{
@@ -78,6 +81,7 @@ namespace jgs
 			 	 input[i] == '9')
 			{
 				result += (input[i] - '0') * placeValue;
+				DEBUG("The result is " << result);
 				placeValue *= 10;
 				i--;
 			}
@@ -88,9 +92,13 @@ namespace jgs
 			}
 			else
 			{
-				std::string exception = "The input parameter " + input + " could not be converted to an int!";
+				std::cout << i << std::endl;
+				std::string exception = "Exception thrown on input[" + i + std::string("]: ")  + input[i];
+				exception += "\nThe input parameter " + input + " could not be converted to an int!";
 				throw exception;
 			}
 		}
+
+		return result;
 	}
 }
