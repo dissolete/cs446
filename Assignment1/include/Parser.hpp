@@ -92,7 +92,6 @@ namespace jgs
 
      bool check_valid_code(char instructionCode);
      bool check_valid_desc(std::string desc);
-     bool check_valid_time(std::string instructionTime);
 
      bool perform_BeginState();
      bool perform_EndState();

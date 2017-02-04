@@ -27,7 +27,7 @@ link: precompile $(OBJECTS)
 	@echo "\nLinking..."
 	$(CC) $(OBJECTS) -o bin/$(TARGET)
 	@echo "\nCompilation of bin/$(TARGET) has completed successfully."
-	@echo "Type \"make run\" to execute application.\n"
+	@echo "Type \"./bin/$(TARGET) config_X.conf\" to execute application.\n"
 
 precompile:
 	@echo "Compiling as target bin/$(TARGET)\n"

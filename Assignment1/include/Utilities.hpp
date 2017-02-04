@@ -7,7 +7,7 @@
 #include <exception>
 
 // Comment this out if you do not want to see debug messages.
-#define __USING_DEBUGGING
+//#define __USING_DEBUGGING
 
 // Comment this out if you do not want to use fatal error checking.
 // *****************************************************************************

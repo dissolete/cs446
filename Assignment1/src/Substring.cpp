@@ -71,7 +71,7 @@ namespace jgs
 		int i = 0;
 		while(input[i] != '\0') i++;
 		i--;
-		std::cout << i << std::endl;
+
 		// Loop backwards to create the int
 		while(i >= 0)
 		{
@@ -92,7 +92,6 @@ namespace jgs
 			}
 			else
 			{
-				std::cout << i << std::endl;
 				std::string exception = "Exception thrown on input[" + i + std::string("]: ")  + input[i];
 				exception += "\nThe input parameter " + input + " could not be converted to an int!";
 				throw exception;

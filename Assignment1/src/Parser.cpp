@@ -53,23 +53,6 @@ namespace jgs
 
   	bool success = parse_config();
 
-    if(success)
-    {
-      std::cout << "The config file has been parsed correctly! :)\n";
-      std::cout << "The contents of the config struct are:\n";
-      std::cout << "Processor time: " << m_configStruct.processorTime << std::endl;
-      std::cout << "Monitor time: " << m_configStruct.monitorTime << std::endl;
-      std::cout << "HDD Time: " << m_configStruct.hddTime <<  std::endl;
-      std::cout << "Printer Time: " << m_configStruct.printerTime <<  std::endl;
-      std::cout << "Keyboard Time: " << m_configStruct.keyboardTime <<  std::endl;
-      std::cout << "Memory Time: " << m_configStruct.memoryTime <<  std::endl;
-      std::cout << "Mouse Time: " << m_configStruct.mouseTime <<  std::endl;
-      std::cout << "Speaker Time: " << m_configStruct.speakerTime <<  std::endl;
-      std::cout << "Metafile: " << m_configStruct.metafile <<  std::endl;
-      std::cout << "LogPath: " << m_configStruct.logPath <<  std::endl;
-      std::cout << "LogStle: " << m_configStruct.logStyle <<  std::endl;
-    }
-
     success = parse_meta();
   	return success;
 
@@ -566,11 +549,6 @@ namespace jgs
     }
 
     return false;
-  }
-
-  bool Parser::check_valid_time(std::string instructionTime)
-  {
-
   }
 
 }
