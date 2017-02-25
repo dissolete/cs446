@@ -1,0 +1,6 @@
+****************************
+How to compile:
+1) Make sure the bin and output folders exist in the same level as the makefile. If they don't, please create them. :)
+2) Type "make" into the terminal
+
+- Love, Jake Shepherd
