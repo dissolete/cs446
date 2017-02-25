@@ -52,7 +52,7 @@ void output_config_metrics(const std::vector<jgs::Instruction> &instructions, co
     std::cout << "The file " << configStruct.logPath << " could not be opened. Check if the directory exists." << std::endl;
     logStyle = jgs::ConfigStruct::LogStyle::LogToMonitor;
   }
-  
+
   log(ofs, logStyle, "Configuration File Data");
   std::string output;
   // Output all of the config stuff
@@ -131,16 +131,38 @@ void output_config_metrics(const std::vector<jgs::Instruction> &instructions, co
   ofs.close();
 }
 
-std::string process_instruction(jgs::Instruction theInstruction)
+std::string process_instruction(const jgs::ConfigStruct &configStruct, const jgs::Instruction &theInstruction)
 {
 	// init output with timer
 	std::string output = std::to_string(Time::elapsed());
-	
-	if(theInstruction.instructionCode = 'S')
+
+	if(theInstruction.instructionCode == 'S')
 	{
-		//output = 
-	}
-	
+    if(theInstruction.instructionDesc == "start"){
+      output += " - OS: preparing process 1";
+      Time::wait(get_total_instruction_time(configStruct, theInstruction));
+
+    }
+    else if(theInstruction.instructionDesc == "end"){
+      output += " - OS: removing process 1";
+      Time::wait(get_total_instruction_time(configStruct, theInstruction));
+
+    }
+  }
+  else if(theInstruction.instructionCode == 'A')
+  {
+    if(theInstruction.instructionDesc == "start"){
+      output += " - OS: starting process 1";
+      Time::wait(get_total_instruction_time(configStruct, theInstruction));
+
+    }
+  }
+  else if(theInstruction.instructionCode == 'P')
+  {
+    output += " - Process 1: start process action";
+    Time::wait(get_total_instruction_time(configStruct, theInstruction));
+    output += std::to_string(Time::elapsed()) + " - Process 1: end process action";
+  }
 }
 
 int main(int argc, char ** argv)
@@ -164,7 +186,7 @@ int main(int argc, char ** argv)
   }
 
   //output_config_metrics(parser.m_instructions, parser.m_configStruct);
-  
+
   std::ofstream ofs;
   jgs::ConfigStruct::LogStyle logStyle = parser.m_configStruct.logStyle;
   ofs.open(parser.m_configStruct.logPath);
@@ -173,21 +195,21 @@ int main(int argc, char ** argv)
     std::cout << "The file " << parser.m_configStruct.logPath << " could not be opened. Check if the directory exists." << std::endl;
     logStyle = jgs::ConfigStruct::LogStyle::LogToMonitor;
   }
-  
+
   // Reset timer
   Time::reset();
-  
+
   log(ofs, logStyle, std::to_string(Time::elapsed()) + " - Simulator Program Starting");
-  
-  // Iterate through instructions, creating threads 
+
+  // Iterate through instructions, creating threads
   for(auto instruction : parser.m_instructions)
   {
-		//log(ofs, logStyle, process_instruction(instruction));
-		
+		log(ofs, logStyle, process_instruction(parser.m_configStruct ,instruction));
+
   }
-  
+
   ofs.close();
-  
+
   return 0;
 
 }
